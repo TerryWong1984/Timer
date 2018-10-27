@@ -7,8 +7,9 @@
 //
 
 #import "TWTimerListTableViewController.h"
+#import "TimerDetailViewController.h"
 
-@interface TWTimerListTableViewController ()
+@interface TWTimerListTableViewController ()<TimerDetailViewControllerProtocal>
 
 @end
 
@@ -42,89 +43,92 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MGSwipeTableCell * cell;
-    
-        static NSString * reuseIdentifier = @"programmaticCell";
-        cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-        if (!cell) {
-            cell = [[MGSwipeTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
-    }
-    
-    TestData * data = [tests objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text = data.title;
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
-    cell.detailTextLabel.text = data.detailTitle;
-    cell.accessoryType = accessory;
-    cell.delegate = self;
-    cell.allowsMultipleSwipe = allowMultipleSwipe;
-    
-    if (background) { //transparency test
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectedBackgroundView = [[UIView alloc] init];
-        cell.selectedBackgroundView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.3];
-        cell.contentView.backgroundColor = [UIColor clearColor];
-        cell.swipeBackgroundColor = [UIColor clearColor];
-        cell.textLabel.textColor = [UIColor yellowColor];
-        cell.detailTextLabel.textColor = [UIColor yellowColor];
-    }
-    
-#if !TEST_USE_MG_DELEGATE
-    cell.leftSwipeSettings.transition = data.transition;
-    cell.rightSwipeSettings.transition = data.transition;
-    cell.leftExpansion.buttonIndex = data.leftExpandableIndex;
-    cell.leftExpansion.fillOnTrigger = NO;
-    cell.rightExpansion.buttonIndex = data.rightExpandableIndex;
-    cell.rightExpansion.fillOnTrigger = YES;
-    cell.leftButtons = [self createLeftButtons:data.leftButtonsCount];
-    cell.rightButtons = [self createRightButtons:data.rightButtonsCount];
-#endif
-    
+    MGSwipeTableCell * cell = [[MGSwipeTableCell alloc]init];
+    cell.textLabel.text = @"www";
+    cell.delegate = self ;
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
+-(BOOL) swipeTableCell:(MGSwipeTableCell*) cell canSwipe:(MGSwipeDirection) direction;
+{
     return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+-(NSArray*) swipeTableCell:(MGSwipeTableCell*) cell swipeButtonsForDirection:(MGSwipeDirection)direction
+             swipeSettings:(MGSwipeSettings*) swipeSettings expansionSettings:(MGSwipeExpansionSettings*) expansionSettings
+{
+    
+    swipeSettings.transition = MGSwipeTransitionBorder;
+    expansionSettings.buttonIndex = 0;
+    
+    __weak TWTimerListTableViewController * me = self;
+    
+    if (direction == MGSwipeDirectionLeftToRight) {
+        
+        expansionSettings.fillOnTrigger = NO;
+        expansionSettings.threshold = 2;
+        return @[[MGSwipeButton buttonWithTitle:@"xx" backgroundColor:[UIColor colorWithRed:0 green:122/255.0 blue:1.0 alpha:1.0] padding:5 callback:^BOOL(MGSwipeTableCell *sender) {
+            [cell refreshContentView]; //needed to refresh cell contents while swipping
+            
+            //change button text
+            [(UIButton*)[cell.leftButtons objectAtIndex:0] setTitle:@"" forState:UIControlStateNormal];
+            
+            return YES;
+        }]];
+    }
+    else {
+        
+        expansionSettings.fillOnTrigger = YES;
+        expansionSettings.threshold = 1.1;
+        
+        CGFloat padding = 15;
+        
+        MGSwipeButton * trash = [MGSwipeButton buttonWithTitle:@"Trash" backgroundColor:[UIColor colorWithRed:1.0 green:59/255.0 blue:50/255.0 alpha:1.0] padding:padding callback:^BOOL(MGSwipeTableCell *sender) {
+            
+            NSIndexPath * indexPath = [me.tableView indexPathForCell:sender];
+            return NO; //don't autohide to improve delete animation
+        }];
+        MGSwipeButton * flag = [MGSwipeButton buttonWithTitle:@"Flag" backgroundColor:[UIColor colorWithRed:1.0 green:149/255.0 blue:0.05 alpha:1.0] padding:padding callback:^BOOL(MGSwipeTableCell *sender) {
+            [cell refreshContentView]; //needed to refresh cell contents while swipping
+            return YES;
+        }];
+        MGSwipeButton * more = [MGSwipeButton buttonWithTitle:@"More" backgroundColor:[UIColor colorWithRed:200/255.0 green:200/255.0 blue:205/255.0 alpha:1.0] padding:padding callback:^BOOL(MGSwipeTableCell *sender) {
+            
+            NSIndexPath * indexPath = [me.tableView indexPathForCell:sender];
+            MGSwipeTableCell * cell = (MGSwipeTableCell*) sender;
+            [cell hideSwipeAnimated:YES];
+            
+            return NO; //avoid autohide swipe
+        }];
+        
+        return @[trash, flag, more];
+    }
+    
+    return nil;
+    
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+-(void) swipeTableCell:(MGSwipeTableCell*) cell didChangeSwipeState:(MGSwipeState)state gestureIsActive:(BOOL)gestureIsActive
+{
+    NSString * str;
+    switch (state) {
+        case MGSwipeStateNone: str = @"None"; break;
+        case MGSwipeStateSwippingLeftToRight: str = @"SwippingLeftToRight"; break;
+        case MGSwipeStateSwippingRightToLeft: str = @"SwippingRightToLeft"; break;
+        case MGSwipeStateExpandingLeftToRight: str = @"ExpandingLeftToRight"; break;
+        case MGSwipeStateExpandingRightToLeft: str = @"ExpandingRightToLeft"; break;
+    }
+    NSLog(@"Swipe state: %@ ::: Gesture: %@", str, gestureIsActive ? @"Active" : @"Ended");
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    TimerDetailViewController *tvc = [[TimerDetailViewController alloc]init];
+    [self.navigationController pushViewController:tvc animated:YES];
 }
-*/
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)setcurrentTime:(NSString *)time{
+    
 }
-*/
+
 
 @end

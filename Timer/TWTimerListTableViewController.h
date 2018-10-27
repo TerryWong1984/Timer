@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MGSwipeTableCell.h"
+#import "MGSwipeButton.h"
 
-@interface TWTimerListTableViewController : UITableViewController
+@interface TWTimerListTableViewController : UITableViewController <MGSwipeTableCellDelegate>
 
 @end

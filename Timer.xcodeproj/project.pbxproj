@@ -14,6 +14,9 @@
 		18092A172178C28400B18559 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18092A122178C28400B18559 /* MGSwipeTableCell.m */; };
 		18092A182178C28400B18559 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18092A152178C28400B18559 /* MGSwipeButton.m */; };
 		18092A1C2178C2E000B18559 /* TWTimerListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18092A1B2178C2E000B18559 /* TWTimerListTableViewController.m */; };
+		18393A5F217D3E3A0066B1BC /* myButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18393A5A217D3E390066B1BC /* myButton.m */; };
+		18393A60217D3E3A0066B1BC /* myLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18393A5C217D3E390066B1BC /* myLabel.m */; };
+		18393A61217D3E3A0066B1BC /* TimerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18393A5D217D3E3A0066B1BC /* TimerDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,12 @@
 		18092A152178C28400B18559 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
 		18092A1A2178C2E000B18559 /* TWTimerListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWTimerListTableViewController.h; sourceTree = "<group>"; };
 		18092A1B2178C2E000B18559 /* TWTimerListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWTimerListTableViewController.m; sourceTree = "<group>"; };
+		18393A59217D3E390066B1BC /* myLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myLabel.h; sourceTree = "<group>"; };
+		18393A5A217D3E390066B1BC /* myButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myButton.m; sourceTree = "<group>"; };
+		18393A5B217D3E390066B1BC /* myButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myButton.h; sourceTree = "<group>"; };
+		18393A5C217D3E390066B1BC /* myLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myLabel.m; sourceTree = "<group>"; };
+		18393A5D217D3E3A0066B1BC /* TimerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerDetailViewController.m; sourceTree = "<group>"; };
+		18393A5E217D3E3A0066B1BC /* TimerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerDetailViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +74,12 @@
 				18092A112178C28400B18559 /* MGSwipeTableCell */,
 				18092A1A2178C2E000B18559 /* TWTimerListTableViewController.h */,
 				18092A1B2178C2E000B18559 /* TWTimerListTableViewController.m */,
+				18393A5E217D3E3A0066B1BC /* TimerDetailViewController.h */,
+				18393A5D217D3E3A0066B1BC /* TimerDetailViewController.m */,
+				18393A5B217D3E390066B1BC /* myButton.h */,
+				18393A5A217D3E390066B1BC /* myButton.m */,
+				18393A59217D3E390066B1BC /* myLabel.h */,
+				18393A5C217D3E390066B1BC /* myLabel.m */,
 				180929FD2178BEBF00B18559 /* AppDelegate.h */,
 				180929FE2178BEC000B18559 /* AppDelegate.m */,
 				18092A062178BEC000B18559 /* Assets.xcassets */,
@@ -86,9 +101,9 @@
 		18092A112178C28400B18559 /* MGSwipeTableCell */ = {
 			isa = PBXGroup;
 			children = (
+				18092A142178C28400B18559 /* MGSwipeTableCell.h */,
 				18092A122178C28400B18559 /* MGSwipeTableCell.m */,
 				18092A132178C28400B18559 /* MGSwipeButton.h */,
-				18092A142178C28400B18559 /* MGSwipeTableCell.h */,
 				18092A152178C28400B18559 /* MGSwipeButton.m */,
 			);
 			path = MGSwipeTableCell;
@@ -165,10 +180,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				18092A172178C28400B18559 /* MGSwipeTableCell.m in Sources */,
+				18393A61217D3E3A0066B1BC /* TimerDetailViewController.m in Sources */,
 				18092A182178C28400B18559 /* MGSwipeButton.m in Sources */,
 				180929FF2178BEC000B18559 /* AppDelegate.m in Sources */,
+				18393A5F217D3E3A0066B1BC /* myButton.m in Sources */,
 				18092A1C2178C2E000B18559 /* TWTimerListTableViewController.m in Sources */,
 				180929FC2178BEBF00B18559 /* main.m in Sources */,
+				18393A60217D3E3A0066B1BC /* myLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
